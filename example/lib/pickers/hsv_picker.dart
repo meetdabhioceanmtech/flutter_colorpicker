@@ -15,20 +15,22 @@ void copyToClipboard(String input) {
 }
 
 class HSVColorPickerExample extends StatefulWidget {
-  const HSVColorPickerExample(
-      {Key? key,
-      required this.pickerColor,
-      required this.onColorChanged,
-      this.colorHistory,
-      this.onHistoryChanged,
-      this.dialogBoxRadious})
-      : super(key: key);
+  const HSVColorPickerExample({
+    Key? key,
+    required this.pickerColor,
+    required this.onColorChanged,
+    this.colorHistory,
+    this.onHistoryChanged,
+    this.onApplyButton,
+    this.dialogBoxRadious,
+  }) : super(key: key);
 
   final Color pickerColor;
   final ValueChanged<Color> onColorChanged;
   final List<Color>? colorHistory;
   final ValueChanged<List<Color>>? onHistoryChanged;
   final double? dialogBoxRadious;
+  final VoidCallback? onApplyButton;
 
   @override
   State<HSVColorPickerExample> createState() => _HSVColorPickerExampleState();
@@ -94,13 +96,10 @@ class _HSVColorPickerExampleState extends State<HSVColorPickerExample> {
                           dialogBoxRadious: widget.dialogBoxRadious,
                           displayThumbColor: _displayThumbColor,
                           paletteType: _paletteType,
-                          pickerAreaBorderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(2),
-                            topRight: Radius.circular(2),
-                          ),
                           hexInputBar: _displayHexInputBar,
                           colorHistory: widget.colorHistory,
                           onHistoryChanged: widget.onHistoryChanged,
+                          onApplyClicked: () {},
                         ),
                       ),
                     );
@@ -472,7 +471,7 @@ SlidePicker(
                               topRight: Radius.circular(2),
                             ),
                             hexInputController: textController, // <- here
-                            portraitOnly: true,
+                            portraitOnly: true, onApplyClicked: () {},
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),

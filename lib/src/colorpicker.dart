@@ -10,10 +10,11 @@ import 'utils.dart';
 
 /// The default layout of Color Picker.
 class ColorPicker extends StatefulWidget {
-  const ColorPicker({
+  ColorPicker({
     Key? key,
     required this.pickerColor,
     required this.onColorChanged,
+    required this.onApplyClicked,
     this.pickerHsvColor,
     this.onHsvColorChanged,
     this.paletteType = PaletteType.hsvWithHue,
@@ -49,6 +50,7 @@ class ColorPicker extends StatefulWidget {
   final BorderRadius pickerAreaBorderRadius;
   final bool hexInputBar;
   final double? dialogBoxRadious;
+  final VoidCallback onApplyClicked;
 
   /// Allows setting the color using text input, via [TextEditingController].
   ///
@@ -239,6 +241,12 @@ class _ColorPickerState extends State<ColorPicker> {
     if (widget.onHsvColorChanged != null) widget.onHsvColorChanged!(currentHsvColor);
   }
 
+  void updateColor(HSVColor color) {
+    // Update text in `hexInputController` if provided.
+    widget.hexInputController?.text = colorToHex(color.toColor(), enableAlpha: widget.enableAlpha);
+    currentHsvColor = color;
+  }
+
   Widget colorPicker() {
     return ClipRRect(
       borderRadius: widget.pickerAreaBorderRadius,
@@ -287,7 +295,7 @@ class _ColorPickerState extends State<ColorPicker> {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          width: widget.colorPickerWidth / 2 - 20,
+          width: 120,
           height: 40,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -305,9 +313,11 @@ class _ColorPickerState extends State<ColorPicker> {
 
   @override
   Widget build(BuildContext context) {
+    print("currentHsvColor==={${currentHsvColor.toColor()}}.....");
+    // print("updatedColor==={${widget.updatedColor}}.....");
     if (MediaQuery.of(context).orientation == Orientation.portrait || widget.portraitOnly) {
       return Padding(
-        padding: EdgeInsets.all(15),
+        padding: EdgeInsets.all(5.0),
         child: Column(
           children: <Widget>[
             SizedBox(
@@ -339,24 +349,25 @@ class _ColorPickerState extends State<ColorPicker> {
             const SizedBox(
               height: 20,
             ),
-            Row(children: [
-              commonButton(
-                buttonColor: Color(0xFFF0F0F0),
-                buttonName: 'Cancel',
-                textColor: Color(0xFF293847),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              commonButton(
-                buttonColor: Color(0xFF4392F1),
-                buttonName: 'Apply',
-                textColor: Colors.white,
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              )
-            ])
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                commonButton(
+                  buttonColor: Color(0xFFF0F0F0),
+                  buttonName: 'Cancel',
+                  textColor: Color(0xFF293847),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                commonButton(
+                  buttonColor: Color(0xFF4392F1),
+                  buttonName: 'Apply',
+                  textColor: Colors.white,
+                  onTap: widget.onApplyClicked,
+                )
+              ],
+            )
           ],
         ),
       );
