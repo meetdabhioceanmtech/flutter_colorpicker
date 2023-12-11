@@ -583,11 +583,11 @@ class _SliderLayout extends MultiChildLayoutDelegate {
     layoutChild(
       track,
       BoxConstraints.tightFor(
-        width: size.width - 30.0,
-        height: size.height / 5,
+        width: size.width,
+        height: size.height / 1.5,
       ),
     );
-    positionChild(track, Offset(15.0, size.height * 0.4));
+    positionChild(track, Offset(0.0, size.height * 0.17));
     layoutChild(
       thumb,
       BoxConstraints.tightFor(width: 5.0, height: size.height / 4),
@@ -723,25 +723,16 @@ class ThumbPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawShadow(
-      Path()
-        ..addOval(
-          Rect.fromCircle(center: const Offset(0.5, 2.0), radius: size.width * 1.8),
-        ),
-      Colors.black,
-      3.0,
-      true,
-    );
     canvas.drawCircle(
         Offset(0.0, size.height * 0.4),
-        size.height,
+        7.0,
         Paint()
           ..color = Colors.white
           ..style = PaintingStyle.fill);
     if (thumbColor != null) {
       canvas.drawCircle(
           Offset(0.0, size.height * 0.4),
-          size.height * (fullThumbColor ? 1.0 : 0.65),
+          3.0,
           Paint()
             ..color = thumbColor!
             ..style = PaintingStyle.fill);
@@ -943,7 +934,7 @@ class ColorPickerInput extends StatefulWidget {
     this.onColorChanged, {
     Key? key,
     this.enableAlpha = true,
-    this.embeddedText = false,
+    this.embeddedText = true,
     this.disable = false,
   }) : super(key: key);
 
@@ -978,36 +969,25 @@ class _ColorPickerInputState extends State<ColorPickerInput> {
     }
     return Padding(
       padding: const EdgeInsets.only(top: 5.0),
-      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        if (!widget.embeddedText) Text('Hex', style: Theme.of(context).textTheme.bodyLarge),
-        const SizedBox(width: 10),
-        SizedBox(
-          width: (Theme.of(context).textTheme.bodyMedium?.fontSize ?? 14) * 10,
-          child: TextField(
-            enabled: !widget.disable,
-            controller: textEditingController,
-            inputFormatters: [
-              UpperCaseTextFormatter(),
-              FilteringTextInputFormatter.allow(RegExp(kValidHexPattern)),
-            ],
-            decoration: InputDecoration(
-              isDense: true,
-              label: widget.embeddedText ? const Text('Hex') : null,
-              contentPadding: const EdgeInsets.symmetric(vertical: 5),
-            ),
-            onChanged: (String value) {
-              String input = value;
-              if (value.length == 9) {
-                input = value.split('').getRange(7, 9).join() + value.split('').getRange(1, 7).join();
-              }
-              final Color? color = colorFromHex(input);
-              if (color != null) {
-                widget.onColorChanged(color);
-                inputColor = color.value;
-              }
-            },
+      child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+        if (!widget.embeddedText)
+          const Text(
+            'Hex',
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
-        ),
+        const SizedBox(width: 10),
+        Container(
+            decoration: BoxDecoration(color: Color(0xFFEBEBEB), borderRadius: BorderRadius.circular(5)),
+            height: 35,
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Center(
+                child: Text(
+                  textEditingController.text,
+                  style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 12),
+                ),
+              ),
+            )),
       ]),
     );
   }
@@ -1061,7 +1041,7 @@ class ColorPickerSlider extends StatelessWidget {
         onColorChanged(HSVColor.fromColor(hsvColor.toColor().withBlue((progress * 0xff).round())));
         break;
       case TrackType.alpha:
-        onColorChanged(hsvColor.withAlpha(localDx.clamp(0.0, box.maxWidth - 30.0) / (box.maxWidth - 30.0)));
+        onColorChanged(hsvColor.withAlpha(localDx.clamp(0.0, box.maxWidth - 5.0) / (box.maxWidth - 5.0)));
         break;
     }
   }
@@ -1069,43 +1049,43 @@ class ColorPickerSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (BuildContext context, BoxConstraints box) {
-      double thumbOffset = 15.0;
+      double thumbOffset = 5.0;
       Color thumbColor;
       switch (trackType) {
         case TrackType.hue:
-          thumbOffset += (box.maxWidth - 30.0) * hsvColor.hue / 360;
+          thumbOffset += (box.maxWidth - 5.0) * hsvColor.hue / 360;
           thumbColor = HSVColor.fromAHSV(1.0, hsvColor.hue, 1.0, 1.0).toColor();
           break;
         case TrackType.saturation:
-          thumbOffset += (box.maxWidth - 30.0) * hsvColor.saturation;
+          thumbOffset += (box.maxWidth - 15.0) * hsvColor.saturation;
           thumbColor = HSVColor.fromAHSV(1.0, hsvColor.hue, hsvColor.saturation, 1.0).toColor();
           break;
         case TrackType.saturationForHSL:
-          thumbOffset += (box.maxWidth - 30.0) * hsvToHsl(hsvColor).saturation;
+          thumbOffset += (box.maxWidth - 15.0) * hsvToHsl(hsvColor).saturation;
           thumbColor = HSLColor.fromAHSL(1.0, hsvColor.hue, hsvToHsl(hsvColor).saturation, 0.5).toColor();
           break;
         case TrackType.value:
-          thumbOffset += (box.maxWidth - 30.0) * hsvColor.value;
+          thumbOffset += (box.maxWidth - 15.0) * hsvColor.value;
           thumbColor = HSVColor.fromAHSV(1.0, hsvColor.hue, 1.0, hsvColor.value).toColor();
           break;
         case TrackType.lightness:
-          thumbOffset += (box.maxWidth - 30.0) * hsvToHsl(hsvColor).lightness;
+          thumbOffset += (box.maxWidth - 15.0) * hsvToHsl(hsvColor).lightness;
           thumbColor = HSLColor.fromAHSL(1.0, hsvColor.hue, 1.0, hsvToHsl(hsvColor).lightness).toColor();
           break;
         case TrackType.red:
-          thumbOffset += (box.maxWidth - 30.0) * hsvColor.toColor().red / 0xff;
+          thumbOffset += (box.maxWidth - 15.0) * hsvColor.toColor().red / 0xff;
           thumbColor = hsvColor.toColor().withOpacity(1.0);
           break;
         case TrackType.green:
-          thumbOffset += (box.maxWidth - 30.0) * hsvColor.toColor().green / 0xff;
+          thumbOffset += (box.maxWidth - 15.0) * hsvColor.toColor().green / 0xff;
           thumbColor = hsvColor.toColor().withOpacity(1.0);
           break;
         case TrackType.blue:
-          thumbOffset += (box.maxWidth - 30.0) * hsvColor.toColor().blue / 0xff;
+          thumbOffset += (box.maxWidth - 15.0) * hsvColor.toColor().blue / 0xff;
           thumbColor = hsvColor.toColor().withOpacity(1.0);
           break;
         case TrackType.alpha:
-          thumbOffset += (box.maxWidth - 30.0) * hsvColor.toColor().opacity;
+          thumbOffset += (box.maxWidth - 5.0) * hsvColor.toColor().opacity;
           thumbColor = hsvColor.toColor().withOpacity(hsvColor.alpha);
           break;
       }
@@ -1116,7 +1096,7 @@ class ColorPickerSlider extends StatelessWidget {
           LayoutId(
             id: _SliderLayout.track,
             child: ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(50.0)),
+              borderRadius: const BorderRadius.all(Radius.circular(5.0)),
               child: CustomPaint(
                   painter: TrackPainter(
                 trackType,
@@ -1161,8 +1141,8 @@ class ColorIndicator extends StatelessWidget {
   const ColorIndicator(
     this.hsvColor, {
     Key? key,
-    this.width = 50.0,
-    this.height = 50.0,
+    this.width = 30.0,
+    this.height = 30.0,
   }) : super(key: key);
 
   final HSVColor hsvColor;
@@ -1174,14 +1154,7 @@ class ColorIndicator extends StatelessWidget {
     return Container(
       width: width,
       height: height,
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(1000.0)),
-        border: Border.all(color: const Color(0xffdddddd)),
-      ),
-      child: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(1000.0)),
-        child: CustomPaint(painter: IndicatorPainter(hsvColor.toColor())),
-      ),
+      decoration: BoxDecoration(color: hsvColor.toColor(), borderRadius: BorderRadius.circular(5)),
     );
   }
 }

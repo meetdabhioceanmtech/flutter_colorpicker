@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart' show CupertinoTextField;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,18 +15,20 @@ void copyToClipboard(String input) {
 }
 
 class HSVColorPickerExample extends StatefulWidget {
-  const HSVColorPickerExample({
-    Key? key,
-    required this.pickerColor,
-    required this.onColorChanged,
-    this.colorHistory,
-    this.onHistoryChanged,
-  }) : super(key: key);
+  const HSVColorPickerExample(
+      {Key? key,
+      required this.pickerColor,
+      required this.onColorChanged,
+      this.colorHistory,
+      this.onHistoryChanged,
+      this.dialogBoxRadious})
+      : super(key: key);
 
   final Color pickerColor;
   final ValueChanged<Color> onColorChanged;
   final List<Color>? colorHistory;
   final ValueChanged<List<Color>>? onHistoryChanged;
+  final double? dialogBoxRadious;
 
   @override
   State<HSVColorPickerExample> createState() => _HSVColorPickerExampleState();
@@ -62,6 +66,7 @@ class _HSVColorPickerExampleState extends State<HSVColorPickerExample> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.pickerColor);
     return ListView(
       children: [
         const SizedBox(height: 20),
@@ -75,6 +80,7 @@ class _HSVColorPickerExampleState extends State<HSVColorPickerExample> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(widget.dialogBoxRadious ?? 10)),
                       titlePadding: const EdgeInsets.all(0),
                       contentPadding: const EdgeInsets.all(0),
                       content: SingleChildScrollView(
@@ -85,6 +91,7 @@ class _HSVColorPickerExampleState extends State<HSVColorPickerExample> {
                           pickerAreaHeightPercent: 0.7,
                           enableAlpha: _enableAlpha,
                           labelTypes: _labelTypes,
+                          dialogBoxRadious: widget.dialogBoxRadious,
                           displayThumbColor: _displayThumbColor,
                           paletteType: _paletteType,
                           pickerAreaBorderRadius: const BorderRadius.only(
