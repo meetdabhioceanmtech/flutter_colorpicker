@@ -75,10 +75,10 @@ class HSVWithHueColorPainter extends CustomPainter {
 
     canvas.drawCircle(
       Offset(size.width * hsvColor.saturation, size.height * (1 - hsvColor.value)),
-      size.height * 0.04,
+      8.0,
       Paint()
         ..color = pointerColor ?? (useWhiteForeground(hsvColor.toColor()) ? Colors.white : Colors.black)
-        ..strokeWidth = 1.5
+        ..strokeWidth = 4.0
         ..style = PaintingStyle.stroke,
     );
   }
@@ -120,10 +120,10 @@ class HSVWithSaturationColorPainter extends CustomPainter {
         size.width * hsvColor.hue / 360,
         size.height * (1 - hsvColor.value),
       ),
-      size.height * 0.04,
+      8.0,
       Paint()
         ..color = pointerColor ?? (useWhiteForeground(hsvColor.toColor()) ? Colors.white : Colors.black)
-        ..strokeWidth = 1.5
+        ..strokeWidth = 4.0
         ..style = PaintingStyle.stroke,
     );
   }
@@ -261,10 +261,10 @@ class HSLWithSaturationColorPainter extends CustomPainter {
 
     canvas.drawCircle(
       Offset(size.width * hslColor.hue / 360, size.height * (1 - hslColor.lightness)),
-      size.height * 0.04,
+      8.0,
       Paint()
         ..color = pointerColor ?? (useWhiteForeground(hslColor.toColor()) ? Colors.white : Colors.black)
-        ..strokeWidth = 1.5
+        ..strokeWidth = 4.0
         ..style = PaintingStyle.stroke,
     );
   }
@@ -314,10 +314,10 @@ class HSLWithLightnessColorPainter extends CustomPainter {
 
     canvas.drawCircle(
       Offset(size.width * hslColor.hue / 360, size.height * (1 - hslColor.saturation)),
-      size.height * 0.04,
+      8.0,
       Paint()
         ..color = pointerColor ?? (useWhiteForeground(hslColor.toColor()) ? Colors.white : Colors.black)
-        ..strokeWidth = 1.5
+        ..strokeWidth = 4.0
         ..style = PaintingStyle.stroke,
     );
   }
@@ -360,10 +360,10 @@ class RGBWithRedColorPainter extends CustomPainter {
 
     canvas.drawCircle(
       Offset(size.width * color.blue / 255, size.height * (1 - color.green / 255)),
-      size.height * 0.04,
+      8.0,
       Paint()
         ..color = pointerColor ?? (useWhiteForeground(color) ? Colors.white : Colors.black)
-        ..strokeWidth = 1.5
+        ..strokeWidth = 4.0
         ..style = PaintingStyle.stroke,
     );
   }
@@ -406,10 +406,10 @@ class RGBWithGreenColorPainter extends CustomPainter {
 
     canvas.drawCircle(
       Offset(size.width * color.blue / 255, size.height * (1 - color.red / 255)),
-      size.height * 0.04,
+      8.0,
       Paint()
         ..color = pointerColor ?? (useWhiteForeground(color) ? Colors.white : Colors.black)
-        ..strokeWidth = 1.5
+        ..strokeWidth = 4.0
         ..style = PaintingStyle.stroke,
     );
   }
@@ -452,10 +452,10 @@ class RGBWithBlueColorPainter extends CustomPainter {
 
     canvas.drawCircle(
       Offset(size.width * color.red / 255, size.height * (1 - color.green / 255)),
-      size.height * 0.04,
+      8.0,
       Paint()
         ..color = pointerColor ?? (useWhiteForeground(color) ? Colors.white : Colors.black)
-        ..strokeWidth = 1.5
+        ..strokeWidth = 4.0
         ..style = PaintingStyle.stroke,
     );
   }
@@ -502,10 +502,10 @@ class HUEColorWheelPainter extends CustomPainter {
         center.dx + hsvColor.saturation * radio * cos((hsvColor.hue * pi / 180)),
         center.dy - hsvColor.saturation * radio * sin((hsvColor.hue * pi / 180)),
       ),
-      size.height * 0.04,
+      8.0,
       Paint()
         ..color = pointerColor ?? (useWhiteForeground(hsvColor.toColor()) ? Colors.white : Colors.black)
-        ..strokeWidth = 1.5
+        ..strokeWidth = 4.0
         ..style = PaintingStyle.stroke,
     );
   }
@@ -553,7 +553,7 @@ class HueRingPainter extends CustomPainter {
     canvas.drawShadow(Path()..addOval(Rect.fromCircle(center: offset, radius: 12)), Colors.black, 3.0, true);
     canvas.drawCircle(
       offset,
-      size.height * 0.04,
+      8.0,
       Paint()
         ..color = Colors.white
         ..style = PaintingStyle.fill,
