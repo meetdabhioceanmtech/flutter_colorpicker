@@ -213,10 +213,10 @@ class HSLWithHueColorPainter extends CustomPainter {
 
     canvas.drawCircle(
       Offset(size.width * hslColor.saturation, size.height * (1 - hslColor.lightness)),
-      size.height * 0.04,
+      8.0,
       Paint()
         ..color = pointerColor ?? (useWhiteForeground(hslColor.toColor()) ? Colors.white : Colors.black)
-        ..strokeWidth = 1.5
+        ..strokeWidth = 4.0
         ..style = PaintingStyle.stroke,
     );
   }
@@ -615,7 +615,7 @@ class TrackPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final Rect rect = Offset.zero & size;
     if (trackType == TrackType.alpha) {
-      final Size chessSize = Size(size.height / 2, size.height / 2);
+      final Size chessSize = Size(size.height / 8, size.height / 8);
       Paint chessPaintB = Paint()..color = const Color(0xffcccccc);
       Paint chessPaintW = Paint()..color = Colors.white;
       List.generate((size.height / chessSize.height).round(), (int y) {

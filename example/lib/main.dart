@@ -14,12 +14,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool lightTheme = true;
+  bool lightTheme = false;
   Color currentColor = Colors.amber;
   List<Color> currentColors = [Colors.yellow, Colors.green];
   List<Color> colorHistory = [];
   Color updatedColor = Colors.red;
-
 
   void changeColor(Color color) => setState(() => currentColor = color);
   void changeColors(List<Color> colors) => setState(() => currentColors = colors);
@@ -59,7 +58,6 @@ class _MyAppState extends State<MyApp> {
                 HSVColorPickerExample(
                   pickerColor: currentColor,
                   onColorChanged: changeColor,
-    
                   colorHistory: colorHistory,
                   onHistoryChanged: (List<Color> colors) => colorHistory = colors,
                 ),

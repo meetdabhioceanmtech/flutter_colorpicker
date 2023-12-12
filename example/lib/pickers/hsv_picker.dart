@@ -39,7 +39,7 @@ class HSVColorPickerExample extends StatefulWidget {
 class _HSVColorPickerExampleState extends State<HSVColorPickerExample> {
   // Picker 1
   PaletteType _paletteType = PaletteType.hsl;
-  bool _enableAlpha = true;
+  bool _enableAlpha = false;
   bool _displayThumbColor = true;
   final List<ColorLabelType> _labelTypes = [ColorLabelType.hsl, ColorLabelType.hsv];
   bool _displayHexInputBar = false;
