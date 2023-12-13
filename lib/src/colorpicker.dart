@@ -24,7 +24,7 @@ class ColorPicker extends StatefulWidget {
     @Deprecated('Use Theme.of(context).textTheme.bodyText1 & 2 to alter text style.') this.labelTextStyle,
     this.displayThumbColor = false,
     this.portraitOnly = false,
-    this.colorPickerWidth = 300.0,
+    required this.colorPickerWidth,
     this.pickerAreaHeightPercent = 1,
     this.pickerAreaBorderRadius = const BorderRadius.all(Radius.zero),
     this.hexInputBar = false,
@@ -45,7 +45,7 @@ class ColorPicker extends StatefulWidget {
   final TextStyle? labelTextStyle;
   final bool displayThumbColor;
   final bool portraitOnly;
-  final double colorPickerWidth;
+  final double? colorPickerWidth;
   final double pickerAreaHeightPercent;
   final BorderRadius pickerAreaBorderRadius;
   final bool hexInputBar;
@@ -290,22 +290,21 @@ class _ColorPickerState extends State<ColorPicker> {
     required Color textColor,
     required VoidCallback onTap,
   }) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: GestureDetector(
-        onTap: onTap,
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
         child: Container(
-          width: 120,
-          height: 40,
+          alignment: Alignment.center,
+          height: 35,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(8.0),
             color: buttonColor,
           ),
-          child: Center(
-              child: Text(
+          child: Text(
             buttonName,
             style: TextStyle(color: textColor),
-          )),
+          ),
         ),
       ),
     );
@@ -313,8 +312,6 @@ class _ColorPickerState extends State<ColorPicker> {
 
   @override
   Widget build(BuildContext context) {
-    print("currentHsvColor==={${currentHsvColor.toColor()}}.....");
-    // print("updatedColor==={${widget.updatedColor}}.....");
     if (MediaQuery.of(context).orientation == Orientation.portrait || widget.portraitOnly) {
       return Padding(
         padding: EdgeInsets.all(5.0),
@@ -346,25 +343,27 @@ class _ColorPickerState extends State<ColorPicker> {
             ),
             SizedBox(height: 30.0, width: widget.colorPickerWidth, child: sliderByPaletteType()),
             SizedBox(height: 30.0, width: widget.colorPickerWidth, child: colorPickerSlider(TrackType.alpha)),
-            const SizedBox(
-              height: 20,
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                commonButton(
-                  buttonColor: Color(0xFFF0F0F0),
-                  buttonName: 'Cancel',
-                  textColor: Color(0xFF293847),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
+                Expanded(
+                  child: commonButton(
+                    buttonColor: Color(0xFFF0F0F0),
+                    buttonName: 'Cancel',
+                    textColor: Color(0xFF293847),
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  ),
                 ),
-                commonButton(
-                  buttonColor: Color(0xFF4392F1),
-                  buttonName: 'Apply',
-                  textColor: Colors.white,
-                  onTap: widget.onApplyClicked,
+                const SizedBox(width: 20),
+                Expanded(
+                  child: commonButton(
+                    buttonColor: Color(0xFF4392F1),
+                    buttonName: 'Apply',
+                    textColor: Colors.white,
+                    onTap: widget.onApplyClicked,
+                  ),
                 )
               ],
             )
@@ -376,7 +375,7 @@ class _ColorPickerState extends State<ColorPicker> {
         children: <Widget>[
           SizedBox(
               width: widget.colorPickerWidth,
-              height: widget.colorPickerWidth * widget.pickerAreaHeightPercent,
+              height: widget.colorPickerWidth! * widget.pickerAreaHeightPercent,
               child: colorPicker()),
           Column(
             children: <Widget>[

@@ -89,7 +89,6 @@ class _HSVColorPickerExampleState extends State<HSVColorPickerExample> {
                         child: ColorPicker(
                           pickerColor: widget.pickerColor,
                           onColorChanged: widget.onColorChanged,
-                          colorPickerWidth: 300,
                           pickerAreaHeightPercent: 0.7,
                           enableAlpha: _enableAlpha,
                           labelTypes: _labelTypes,
@@ -100,6 +99,7 @@ class _HSVColorPickerExampleState extends State<HSVColorPickerExample> {
                           colorHistory: widget.colorHistory,
                           onHistoryChanged: widget.onHistoryChanged,
                           onApplyClicked: () {},
+                          colorPickerWidth: 300,
                         ),
                       ),
                     );
