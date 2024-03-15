@@ -977,7 +977,7 @@ class _ColorPickerInputState extends State<ColorPickerInput> {
           ),
         const SizedBox(width: 10),
         Container(
-            decoration: BoxDecoration(color: Color(0xFFEBEBEB), borderRadius: BorderRadius.circular(5)),
+            decoration: BoxDecoration(color: const Color(0xFFEBEBEB), borderRadius: BorderRadius.circular(5)),
             height: 35,
             child: Padding(
               padding: const EdgeInsets.all(10.0),

@@ -10,7 +10,7 @@ import 'utils.dart';
 
 /// The default layout of Color Picker.
 class ColorPicker extends StatefulWidget {
-  ColorPicker({
+  const ColorPicker({
     Key? key,
     required this.pickerColor,
     required this.onColorChanged,
@@ -32,6 +32,8 @@ class ColorPicker extends StatefulWidget {
     this.colorHistory,
     this.onHistoryChanged,
     this.dialogBoxRadious,
+    this.applyButtonBgColo,
+    this.cancleButtonBgColo,
   }) : super(key: key);
 
   final Color pickerColor;
@@ -51,6 +53,8 @@ class ColorPicker extends StatefulWidget {
   final bool hexInputBar;
   final double? dialogBoxRadious;
   final VoidCallback onApplyClicked;
+  final Color? applyButtonBgColo;
+  final Color? cancleButtonBgColo;
 
   /// Allows setting the color using text input, via [TextEditingController].
   ///
@@ -314,7 +318,7 @@ class _ColorPickerState extends State<ColorPicker> {
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).orientation == Orientation.portrait || widget.portraitOnly) {
       return Padding(
-        padding: EdgeInsets.all(5.0),
+        padding: const EdgeInsets.all(5.0),
         child: Column(
           children: <Widget>[
             SizedBox(
@@ -348,9 +352,9 @@ class _ColorPickerState extends State<ColorPicker> {
               children: [
                 Expanded(
                   child: commonButton(
-                    buttonColor: Color(0xFFF0F0F0),
+                    buttonColor: widget.cancleButtonBgColo ?? const Color(0xFFF0F0F0),
                     buttonName: 'Cancel',
-                    textColor: Color(0xFF293847),
+                    textColor: const Color(0xFF293847),
                     onTap: () {
                       Navigator.pop(context);
                     },
@@ -359,7 +363,7 @@ class _ColorPickerState extends State<ColorPicker> {
                 const SizedBox(width: 20),
                 Expanded(
                   child: commonButton(
-                    buttonColor: Color(0xFF4392F1),
+                    buttonColor: widget.applyButtonBgColo ?? const Color(0xFF4392F1),
                     buttonName: 'Apply',
                     textColor: Colors.white,
                     onTap: widget.onApplyClicked,

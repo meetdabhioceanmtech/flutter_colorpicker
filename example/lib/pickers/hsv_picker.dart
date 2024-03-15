@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart' show CupertinoTextField;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -60,6 +58,8 @@ class _HSVColorPickerExampleState extends State<HSVColorPickerExample> {
       TextEditingController(text: '#2F19DB'); // The initial value can be provided directly to the controller.
   bool _enableAlpha4 = true;
 
+  Color? buttonBgColo;
+
   @override
   void dispose() {
     textController.dispose();
@@ -68,7 +68,6 @@ class _HSVColorPickerExampleState extends State<HSVColorPickerExample> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.pickerColor);
     return ListView(
       children: [
         const SizedBox(height: 20),
@@ -100,6 +99,7 @@ class _HSVColorPickerExampleState extends State<HSVColorPickerExample> {
                           onHistoryChanged: widget.onHistoryChanged,
                           onApplyClicked: () {},
                           colorPickerWidth: 300,
+                          applyButtonBgColo: buttonBgColo,
                         ),
                       ),
                     );
