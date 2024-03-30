@@ -10,31 +10,32 @@ import 'utils.dart';
 
 /// The default layout of Color Picker.
 class ColorPicker extends StatefulWidget {
-  const ColorPicker({
-    Key? key,
-    required this.pickerColor,
-    required this.onColorChanged,
-    required this.onApplyClicked,
-    this.pickerHsvColor,
-    this.onHsvColorChanged,
-    this.paletteType = PaletteType.hsvWithHue,
-    this.enableAlpha = true,
-    @Deprecated('Use empty list in [labelTypes] to disable label.') this.showLabel = true,
-    this.labelTypes = const [ColorLabelType.rgb, ColorLabelType.hsv, ColorLabelType.hsl],
-    @Deprecated('Use Theme.of(context).textTheme.bodyText1 & 2 to alter text style.') this.labelTextStyle,
-    this.displayThumbColor = false,
-    this.portraitOnly = false,
-    required this.colorPickerWidth,
-    this.pickerAreaHeightPercent = 1,
-    this.pickerAreaBorderRadius = const BorderRadius.all(Radius.zero),
-    this.hexInputBar = false,
-    this.hexInputController,
-    this.colorHistory,
-    this.onHistoryChanged,
-    this.dialogBoxRadious,
-    this.applyButtonBgColo,
-    this.cancleButtonBgColo,
-  }) : super(key: key);
+  const ColorPicker(
+      {Key? key,
+      required this.pickerColor,
+      required this.onColorChanged,
+      required this.onApplyClicked,
+      this.pickerHsvColor,
+      this.onHsvColorChanged,
+      this.paletteType = PaletteType.hsvWithHue,
+      this.enableAlpha = true,
+      @Deprecated('Use empty list in [labelTypes] to disable label.') this.showLabel = true,
+      this.labelTypes = const [ColorLabelType.rgb, ColorLabelType.hsv, ColorLabelType.hsl],
+      @Deprecated('Use Theme.of(context).textTheme.bodyText1 & 2 to alter text style.') this.labelTextStyle,
+      this.displayThumbColor = false,
+      this.portraitOnly = false,
+      required this.colorPickerWidth,
+      this.pickerAreaHeightPercent = 1,
+      this.pickerAreaBorderRadius = const BorderRadius.all(Radius.zero),
+      this.hexInputBar = false,
+      this.hexInputController,
+      this.colorHistory,
+      this.onHistoryChanged,
+      this.dialogBoxRadious,
+      this.applyButtonBgColo,
+      this.cancleButtonBgColo,
+      this.showOpacityLine = true})
+      : super(key: key);
 
   final Color pickerColor;
   final ValueChanged<Color> onColorChanged;
@@ -55,6 +56,7 @@ class ColorPicker extends StatefulWidget {
   final VoidCallback onApplyClicked;
   final Color? applyButtonBgColo;
   final Color? cancleButtonBgColo;
+  final bool? showOpacityLine;
 
   /// Allows setting the color using text input, via [TextEditingController].
   ///
@@ -346,7 +348,9 @@ class _ColorPickerState extends State<ColorPicker> {
               ),
             ),
             SizedBox(height: 30.0, width: widget.colorPickerWidth, child: sliderByPaletteType()),
-            SizedBox(height: 30.0, width: widget.colorPickerWidth, child: colorPickerSlider(TrackType.alpha)),
+            widget.showOpacityLine ?? false
+                ? SizedBox(height: 30.0, width: widget.colorPickerWidth, child: colorPickerSlider(TrackType.alpha))
+                : const SizedBox.shrink(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
